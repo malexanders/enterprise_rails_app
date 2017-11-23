@@ -26,10 +26,10 @@ module EnterpriseRailsApp
     # config.time_zone = 'Central Time (US & Canada)'
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    config.i18n.load_path += %W(
-      #{Rails.root.join('app', 'models', 'logical')},
-      #{Rails.root.join('app', 'controllers', 'service')}
-    )
+    # config.i18n.load_path += %W(
+    #   #{Rails.root.join('app', 'models', 'logical')},
+    #   #{Rails.root.join('app', 'controllers', 'service')}
+    # )
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.

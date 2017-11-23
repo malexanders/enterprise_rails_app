@@ -48,7 +48,7 @@ RSpec.describe Movie, type: :model do
       end
     end
 
-    it "enforces rating datatype is an integer" do
+    it "enforces rating datatype is a valid" do
       movie = Movie.new(:name => 'Casablanca', :rating => 'Fred',
                         :length_minutes => '10')
       test_for_db_error("Database did not catch invalid rating") do
@@ -78,5 +78,57 @@ RSpec.describe Movie, type: :model do
         movie.save!
       end
     end
+  end
+
+  context "Application Layer Validations" do
+    it "enforces name not null" do
+      movie = Movie.new(:rating => 'PG', :length_minutes => '10')
+      expect(movie.save).to be(false), "Model constraints did not catch null name"
+    end
+
+    it "enforces name not empty" do
+      movie = Movie.new(:name => '', :rating => 'PG', :length_minutes => '10')
+      expect(movie.save).to be(false), "Model constraints did not catch empty name"
+    end
+
+    it "enforces non duplicate entries" do
+      movies = []
+
+      2.times do
+        movies << Movie.new(:name => 'Casablanca', :rating => 'PG', :length_minutes => '10')
+      end
+
+      movies[0].save
+      expect(movies[1].save).to be(false), "Model constraints did not catch duplicate movie"
+    end
+
+    it "enforces rating not null" do
+      movie = Movie.new(:name => 'Casablanca', :length_minutes => '10')
+      expect(movie.save).to be(false), "Model constraints did not catch null rating"
+    end
+
+    it "enforces rating datatype is a valid" do
+      movie = Movie.new(:name => 'Casablanca', :rating => 'Fred',
+                        :length_minutes => '10')
+      expect(movie.save).to be(false), "Model constraints did not catch invalid rating"
+    end
+
+    it "enforces length is not null" do
+      movie = Movie.new(:name => 'Casablanca', :rating => 'PG')
+      expect(movie.save).to be(false), "Model constraints did not catch null movie length"
+    end
+
+    it "enforces length is greater than 0" do
+      movie = Movie.new(:name => 'Casablanca', :rating => 'PG',
+                        :length_minutes => '0')
+      expect(movie.save).to be(false), "Model constraints did not catch zero length movie"
+    end
+
+    it "enforces length is not negative" do
+      movie = Movie.new(:name => 'Casablanca', :rating => 'PG', :length_minutes =>
+          '−10')
+      expect(movie.save).to be(false), "Model constraints did not catch negative movie length"
+    end
+
   end
 end
