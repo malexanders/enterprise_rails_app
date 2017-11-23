@@ -24,10 +24,12 @@ ActiveRecord::Schema.define(version: 20171123025718) do
   end
 
   create_table "movies", force: :cascade do |t|
-    t.string  "name",           limit: 256
-    t.integer "length_minutes"
-    t.string  "rating",         limit: 8
+    t.string  "name",           limit: 256, null: false
+    t.integer "length_minutes",             null: false
+    t.string  "rating",         limit: 8,   null: false
   end
+
+  add_index "movies", ["name"], name: "movies_name_key", unique: true, using: :btree
 
   create_table "theatres", force: :cascade do |t|
     t.string "name",             limit: 256
