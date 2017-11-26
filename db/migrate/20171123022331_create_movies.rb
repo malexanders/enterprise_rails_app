@@ -18,8 +18,8 @@ class CreateMovies < ActiveRecord::Migration
 
   def down
     execute <<-SQL
-      drop sequence movies_id_seq;
       drop table movies;
+      drop sequence movies_id_seq;
     SQL
   end
 end

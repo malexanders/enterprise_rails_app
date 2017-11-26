@@ -17,10 +17,10 @@ ActiveRecord::Schema.define(version: 20171123025718) do
   enable_extension "plpgsql"
 
   create_table "movie_showtimes", force: :cascade do |t|
-    t.integer  "movie_id"
-    t.integer  "theatre_id"
-    t.string   "auditorium", limit: 16
-    t.datetime "start_time"
+    t.integer  "movie_id",              null: false
+    t.integer  "theatre_id",            null: false
+    t.string   "auditorium", limit: 16, null: false
+    t.datetime "start_time",            null: false
   end
 
   create_table "movies", force: :cascade do |t|
@@ -41,4 +41,6 @@ ActiveRecord::Schema.define(version: 20171123025718) do
     t.string "phone_number",     limit: 10
   end
 
+  add_foreign_key "movie_showtimes", "movies", name: "movie_showtimes_movie_id_fkey"
+  add_foreign_key "movie_showtimes", "theatres", name: "movie_showtimes_theatre_id_fkey"
 end
