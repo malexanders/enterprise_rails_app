@@ -1,13 +1,11 @@
 class Movie < ActiveRecord::Base
-  has_many :movie_showtimes
+  has_many :movie_showtimes, :dependent => :destroy
 
   validates_presence_of :name, :rating, :length_minutes
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 256
   validates_numericality_of :length_minutes, :only_integer => true
   validate :validate_length_minutes, :validate_rating_type
-
-  has_many :movie_showtimes
 
   VALID_RATINGS = ['Unrated', 'G', 'PG', 'PG-13', 'R', 'NC-17']
 

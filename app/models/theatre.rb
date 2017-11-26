@@ -1,4 +1,5 @@
 class Theatre < ActiveRecord::Base
-  has_many :movie_showtimes
+  has_many :movie_showtimes, :dependent => :destroy
+
 end
 

@@ -60,6 +60,20 @@ RSpec.describe MovieShowtime, type: :model do
         st.save(validation: false)
       end
     end
+
+    it "validates reference movie may not be deleted" do
+      create :movie_showtime, movie: movie, theatre: theatre
+      test_for_db_error "Database allowed referenced theatre to be deleted" do
+        theatre.delete
+      end
+    end
+
+    it "validates reference theatre may not be deleted" do
+      create :movie_showtime, movie: movie, theatre: theatre
+      test_for_db_error "Database allowed referenced theatre to be deleted" do
+        movie.delete
+      end
+    end
   end
 
   context "Application Layer Validations" do
@@ -101,6 +115,16 @@ RSpec.describe MovieShowtime, type: :model do
     it "validates presence of auditorium" do
       st = build :movie_showtime, movie: movie, theatre: theatre, auditorium: nil
       expect(!st.save).to be(true), "Model validation allowed save with no auditorium"
+    end
+
+    it "validates associated movie shotimes are deleted when theatre is deleted" do
+      create :movie_showtime, movie: movie, theatre: theatre
+      expect { theatre.destroy }.to change { MovieShowtime.count }.by(-1)
+    end
+
+    it "validates associated movie shotimes are deleted when movie is deleted" do
+      create :movie_showtime, movie: movie, theatre: theatre
+      expect { movie.destroy }.to change { MovieShowtime.count }.by(-1)
     end
   end
 end
