@@ -16,6 +16,8 @@ class CreateMovieShowtimes < ActiveRecord::Migration
       );
       create index movie_showtimes_movie_id_idx on movie_showtimes(movie_id);
       create index movie_showtimes_theatre_id_idx on movie_showtimes(theatre_id);
+      create index theatres_zip_idx on theatres(address_zip_code);
+      create index movie_showtimes_start_time_idx on movie_showtimes(start_time);
     SQL
   end
 

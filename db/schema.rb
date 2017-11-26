@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20171123025718) do
   end
 
   add_index "movie_showtimes", ["movie_id"], name: "movie_showtimes_movie_id_idx", using: :btree
+  add_index "movie_showtimes", ["start_time"], name: "movie_showtimes_start_time_idx", using: :btree
   add_index "movie_showtimes", ["theatre_id"], name: "movie_showtimes_theatre_id_idx", using: :btree
 
   create_table "movies", force: :cascade do |t|
@@ -43,6 +44,8 @@ ActiveRecord::Schema.define(version: 20171123025718) do
     t.string "address_zip_code", limit: 9
     t.string "phone_number",     limit: 10
   end
+
+  add_index "theatres", ["address_zip_code"], name: "theatres_zip_idx", using: :btree
 
   add_foreign_key "movie_showtimes", "movies", name: "movie_showtimes_movie_id_fkey"
   add_foreign_key "movie_showtimes", "theatres", name: "movie_showtimes_theatre_id_fkey"
