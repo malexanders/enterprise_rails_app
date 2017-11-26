@@ -23,6 +23,9 @@ ActiveRecord::Schema.define(version: 20171123025718) do
     t.datetime "start_time",            null: false
   end
 
+  add_index "movie_showtimes", ["movie_id"], name: "movie_showtimes_movie_id_idx", using: :btree
+  add_index "movie_showtimes", ["theatre_id"], name: "movie_showtimes_theatre_id_idx", using: :btree
+
   create_table "movies", force: :cascade do |t|
     t.string  "name",           limit: 256, null: false
     t.integer "length_minutes",             null: false

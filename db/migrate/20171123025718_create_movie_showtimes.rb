@@ -14,6 +14,8 @@ class CreateMovieShowtimes < ActiveRecord::Migration
         start_time timestamp with time zone not null,
         primary key (id)
       );
+      create index movie_showtimes_movie_id_idx on movie_showtimes(movie_id);
+      create index movie_showtimes_theatre_id_idx on movie_showtimes(theatre_id);
     SQL
   end
 
