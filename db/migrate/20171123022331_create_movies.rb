@@ -12,8 +12,6 @@ class CreateMovies < ActiveRecord::Migration
         rating varchar(8) not null,
           check (rating in ('Unrated', 'G', 'PG', 'PG-13', 'R', 'NC-17')),
         primary key (id)
-
-
       );
     SQL
   end
