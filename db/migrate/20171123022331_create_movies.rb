@@ -9,8 +9,6 @@ class CreateMovies < ActiveRecord::Migration
           check (length(name) > 0),
         length_minutes integer not null
           check (length_minutes > 0),
-        rating varchar(8) not null,
-          check (rating in ('Unrated', 'G', 'PG', 'PG-13', 'R', 'NC-17')),
         primary key (id)
       );
     SQL
