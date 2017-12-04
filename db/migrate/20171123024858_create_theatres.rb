@@ -5,14 +5,9 @@ class CreateTheatres < ActiveRecord::Migration
     create table theatres (
       id integer,
       name varchar(256),
-      address_line_1 varchar(256),
-      address_line_2 varchar(256),
-      address_city varchar(128),
-      address_state varchar(2),
-      address_zip_code varchar(9),
       phone_number varchar(10),
       primary key (id)
-    );
+    )inherits(addresses);
     SQL
   end
 

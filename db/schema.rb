@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171203232135) do
+ActiveRecord::Schema.define(version: 20171204203341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,24 +51,47 @@ ActiveRecord::Schema.define(version: 20171203232135) do
 
   add_index "movies", ["name"], name: "movies_name_key", unique: true, using: :btree
 
+  create_table "orders", force: :cascade do |t|
+    t.string   "line_1",             limit: 256, null: false
+    t.string   "line_2",             limit: 256
+    t.string   "city",               limit: 128, null: false
+    t.string   "state",              limit: 2,   null: false
+    t.string   "zip_code",           limit: 9,   null: false
+    t.string   "phone_number",       limit: 10,  null: false
+    t.string   "confirmation_code",  limit: 256, null: false
+    t.integer  "movie_showtime_id",              null: false
+    t.integer  "payment_type_id",                null: false
+    t.integer  "credit_card_number",             null: false
+    t.datetime "expiration_date",                null: false
+  end
+
+  add_index "orders", ["confirmation_code"], name: "orders_confirmation_code_key", unique: true, using: :btree
+
+  create_table "purchased_tickets", force: :cascade do |t|
+    t.integer "order_id",             null: false
+    t.integer "purchase_price_cents", null: false
+  end
+
   create_table "ratings", force: :cascade do |t|
     t.string "rating_name",        limit: 16
     t.text   "rating_description"
   end
 
   create_table "theatres", force: :cascade do |t|
-    t.string "name",             limit: 256
-    t.string "address_line_1",   limit: 256
-    t.string "address_line_2",   limit: 256
-    t.string "address_city",     limit: 128
-    t.string "address_state",    limit: 2
-    t.string "address_zip_code", limit: 9
-    t.string "phone_number",     limit: 10
+    t.string "line_1",       limit: 256, null: false
+    t.string "line_2",       limit: 256
+    t.string "city",         limit: 128, null: false
+    t.string "state",        limit: 2,   null: false
+    t.string "zip_code",     limit: 9,   null: false
+    t.string "phone_number", limit: 10,  null: false
+    t.string "name",         limit: 256
   end
 
-  add_index "theatres", ["address_zip_code"], name: "theatres_zip_idx", using: :btree
+  add_index "theatres", ["zip_code"], name: "theatres_zip_idx", using: :btree
 
   add_foreign_key "auditoria", "theatres", name: "auditoria_theatre_id_fkey"
   add_foreign_key "movie_showtimes", "movies", name: "movie_showtimes_movie_id_fkey"
   add_foreign_key "movie_showtimes", "theatres", name: "movie_showtimes_theatre_id_fkey"
+  add_foreign_key "orders", "movie_showtimes", name: "orders_movie_showtime_id_fkey"
+  add_foreign_key "purchased_tickets", "orders", name: "purchased_tickets_order_id_fkey"
 end
