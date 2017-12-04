@@ -33,10 +33,14 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use postgresQL in all environments
 gem 'pg', '~> 0.20.0'
 
+# Custom Gems
+gem 'extensions', git: 'https://github.com/malexanders/extensions'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'rspec-rails'
   gem 'pry-rails'
+  gem 'shoulda-matchers', '~> 3.1'
 end
 
 group :development do
